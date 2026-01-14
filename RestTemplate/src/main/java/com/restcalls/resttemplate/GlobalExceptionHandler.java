@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleOrderNotFound(OrderNotFoundException ex) {
         Map<String, Object> errorResponse = new LinkedHashMap<>();
-        errorResponse.put("timestamp", getNow());
+        errorResponse.put("timestamp", Instant.now());
         errorResponse.put("status", HttpStatus.NOT_FOUND.value());
         errorResponse.put("error", "Not Found");
         errorResponse.put("message", ex.getMessage());
