@@ -1,5 +1,6 @@
 package com.restcalls.resttemplate;
 
+import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +18,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Orders> getAllOrders() {
-        return service.getAll();
-    }
+    public List<Orders> getAllOrders() {return service.getAll();}
 
     @GetMapping("/{id}")
     public ResponseEntity<Orders> getOrder(@PathVariable String id) {
-        return service.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Orders order = service.getById(id);
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
@@ -39,16 +37,15 @@ public class OrderController {
     @PutMapping("/{id}")
     public ResponseEntity<Orders> updateOrder(@PathVariable String id,
                                               @RequestBody Orders updated) {
-        return service.update(id, updated)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Orders saved = service.update(id, updated);
+        return ResponseEntity.ok(saved);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
+    public ResponseEntity<String> deleteOrder(@PathVariable String id) {
         boolean deleted = service.delete(id);
-        return deleted ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
+        return deleted ? ResponseEntity.ok("Order deleted successfully")
+                : ResponseEntity.status(404).body("Order not found");
     }
 }
 

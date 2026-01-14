@@ -17,27 +17,35 @@ public class OrderService {
         return repo.findAll();
     }
 
-    public Optional<Orders> getById(String id) {
-        return repo.findById(id);
+    public Orders getById(String id) {
+        return repo.findById(id)
+                .orElseThrow(() ->
+                        new OrderNotFoundException("Order not found with id: " + id)
+                );
     }
 
     public Orders create(Orders order) {
         return repo.save(order);
     }
 
-    public Optional<Orders> update(String id, Orders updated) {
-        return repo.findById(id).map(existing -> {
-            if(updated.getCustomerName() != null) {
-                existing.setCustomerName(updated.getCustomerName());
-            }
-            if(updated.getProduct() != null) {
-                existing.setProduct(updated.getProduct());
-            }
-            if(updated.getStatus() != null) {
-                existing.setStatus(updated.getStatus());
-            }
-            return repo.save(existing);
-        });
+    public Orders update(String id, Orders updated) {
+
+        Orders existing = repo.findById(id)
+                .orElseThrow(() ->
+                        new OrderNotFoundException("Order not found with id: " + id)
+                );
+
+        if (updated.getCustomerName() != null) {
+            existing.setCustomerName(updated.getCustomerName());
+        }
+        if (updated.getProduct() != null) {
+            existing.setProduct(updated.getProduct());
+        }
+        if (updated.getStatus() != null) {
+            existing.setStatus(updated.getStatus());
+        }
+
+        return repo.save(existing);
     }
 
     public boolean delete(String id) {
