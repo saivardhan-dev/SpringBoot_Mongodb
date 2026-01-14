@@ -1,6 +1,5 @@
 package com.restcalls.resttemplate;
 
-import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
