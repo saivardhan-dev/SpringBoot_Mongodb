@@ -48,7 +48,7 @@ public class OrderService {
     }
 
     public boolean delete(String id) {
-        if (!repo.existsById(id)) return false;
+        if (!repo.existsById(id)) throw new OrderNotFoundException("Order not found with id: " + id);
         repo.deleteById(id);
         return true;
     }
