@@ -1,4 +1,4 @@
-package com.restcalls.resttemplate;
+package com.restcalls.resttemplate.orders;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,4 +47,6 @@ public class OrderController {
                 : ResponseEntity.status(404).body("Order not found");
     }
 }
+
+
 

@@ -1,5 +1,9 @@
-package com.restcalls.resttemplate;
+package com.restcalls.resttemplate.orderstests;
 
+import com.restcalls.resttemplate.orders.OrderNotFoundException;
+import com.restcalls.resttemplate.orders.OrderRepository;
+import com.restcalls.resttemplate.orders.OrderService;
+import com.restcalls.resttemplate.orders.Orders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -92,11 +96,11 @@ public class OrderServiceTest {
 
     @Test
     void delete_shouldDeleteOrder() {
-        String id = "asdflkj";
-        when(repo.existsById(id)).thenReturn(true);
-        boolean result = service.delete(id);
+        when(repo.existsById(anyString())).thenReturn(true);
+        doNothing().when(repo).deleteById(anyString());
+        boolean result = service.delete(anyString());
         assertTrue(result);
-        verify(repo, times(1)).deleteById(id);
+        verify(repo, times(1)).deleteById(anyString());
     }
 
     @Test

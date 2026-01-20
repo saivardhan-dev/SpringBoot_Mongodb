@@ -1,4 +1,4 @@
-package com.restcalls.resttemplate;
+package com.restcalls.resttemplate.orders;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
