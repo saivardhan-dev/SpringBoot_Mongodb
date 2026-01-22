@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/RestTemplate/RestTemplate.iml" filepath="$PROJECT_DIR$/RestTemplate/RestTemplate.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/SpringBoot_Mongodb.iml" filepath="$PROJECT_DIR$/.idea/SpringBoot_Mongodb.iml" />
     </modules>
   </component>
