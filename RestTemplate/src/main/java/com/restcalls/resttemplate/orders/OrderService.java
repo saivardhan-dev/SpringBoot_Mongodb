@@ -32,7 +32,7 @@ public class OrderService {
     @CircuitBreaker(name = "mongoDbCB", fallbackMethod = "getByIdFallback")
     public Orders getById(String id) {
         Orders order = repo.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id + " in DB"));
         cache.put(order);
         return order;
     }
@@ -49,7 +49,7 @@ public class OrderService {
     public Orders update(String id, Orders updated) {
 
         Orders existing = repo.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id));
+                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + id + " in DB"));
 
         if (updated.getCustomerName() != null) {
             existing.setCustomerName(updated.getCustomerName());
@@ -69,16 +69,12 @@ public class OrderService {
     @CircuitBreaker(name = "mongoDbCB", fallbackMethod = "deleteFallback")
     public boolean delete(String id) {
         if (!repo.existsById(id))
-            throw new OrderNotFoundException("Order not found with id: " + id);
+            throw new OrderNotFoundException("Order not found with id: " + id + " in DB");
 
         repo.deleteById(id);
         cache.evict(id);
         return true;
     }
-
-    // -----------------------
-    // Fallback methods
-    // -----------------------
 
     public Orders getByIdFallback(String id, Throwable ex) {
         log.warn("Fallback getById({}) - DB unavailable or circuit OPEN. Reason: {}", id, ex.toString());
@@ -109,3 +105,4 @@ public class OrderService {
         throw new DatabaseUnavailableException("Database unavailable. Cannot delete order right now.");
     }
 }
+
